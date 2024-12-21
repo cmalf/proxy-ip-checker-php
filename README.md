@@ -12,7 +12,7 @@ A `PHP` script to efficiently check the validity and IP of various proxy types (
   ```bash
   cd proxy-ip-checker-php
   ```
-- Put Your Proxy to proxy.txt
+- Put Your Proxy to proxy.txt (Format Proxy is `protocol://username:password@hostname:port` )
 - Run The Script
   ```bash
   php iproxy.php
