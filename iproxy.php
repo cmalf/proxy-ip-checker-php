@@ -14,6 +14,23 @@ $cl = [
     'rt' => "\033[0m"
 ];
 
+// Check if cURL extension is installed
+if (!extension_loaded('curl')) {
+    $installInstructions = "Error: PHP cURL extension is not installed.\n\n";
+    $installInstructions .= "Installation instructions:\n\n";
+    $installInstructions .= "For Windows:\n";
+    $installInstructions .= "1. Open php.ini file\n";
+    $installInstructions .= "2. Uncomment extension=curl\n";
+    $installInstructions .= "3. Restart your web server\n\n";
+    $installInstructions .= "For Linux (Ubuntu/Debian):\n";
+    $installInstructions .= "sudo apt-get install php-curl\n";
+    $installInstructions .= "sudo service apache2 restart\n\n";
+    $installInstructions .= "For macOS:\n";
+    $installInstructions .= "1. Using Homebrew: brew install php@8.x\n";
+    $installInstructions .= "2. Or modify php.ini to enable curl extension\n";
+    die($cl['red'] . $installInstructions . $cl['rt']);
+}
+
 function CoderMark($cl, &$CoderMarkPrinted) {
     if (!$CoderMarkPrinted) {
         echo "
