@@ -14,6 +14,11 @@ $cl = [
     'rt' => "\033[0m"
 ];
 
+// Check if cURL extension is installed
+if (!extension_loaded('curl')) {
+    die($cl['red'] . "Error: PHP cURL extension is not installed.\nPlease install it using:\napt-get install php-curl\n" . $cl['rt']);
+}
+
 function CoderMark($cl, &$CoderMarkPrinted) {
     if (!$CoderMarkPrinted) {
         echo "
@@ -43,7 +48,15 @@ function checkProxy($proxyLine) {
         
         [$protocol, $rest] = $parts;
         
+        if (!function_exists('curl_init')) {
+            throw new Exception('cURL extension is not installed');
+        }
+        
         $ch = curl_init();
+        if ($ch === false) {
+            throw new Exception('Failed to initialize cURL');
+        }
+        
         curl_setopt($ch, CURLOPT_URL, 'https://ipwhois.app/json/');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_PROXY, $rest);
@@ -122,7 +135,6 @@ function checkProxyList() {
             }
         }
 
-        // Save valid US proxies back to the original file
         file_put_contents($filename, implode("\n", $validProxies));
 
         echo "\nSummary:\n";
