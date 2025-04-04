@@ -136,7 +136,8 @@ function checkProxyList() {
             $result = checkProxy($proxy);
             
             if ($result['success']) {
-                if ($result['country'] === 'United States') {
+                // New logic: accept proxy if country is NOT United States.
+                if ($result['country'] !== 'United States') {
                     echo "{$cl['br']}{$proxy}{$cl['rt']} -> IP: {$cl['gr']}{$result['ip']}{$cl['rt']} ({$result['country']}) ✓\n";
                     $validProxies[] = $proxy;
                 } else {
@@ -151,9 +152,9 @@ function checkProxyList() {
 
         echo "\nSummary:\n";
         echo "Total proxies processed: " . count($proxyList) . "\n";
-        echo "Valid US proxies saved: " . count($validProxies) . "\n";
+        echo "Valid non-US proxies saved: " . count($validProxies) . "\n";
         echo "Removed proxies: " . (count($proxyList) - count($validProxies)) . "\n";
-        echo "\nProxy list has been updated with only working US proxies.\n";
+        echo "\nProxy list has been updated with only working non-US proxies.\n";
 
     } catch (Exception $error) {
         echo "{$cl['red']}Error: {$cl['rt']}" . $error->getMessage() . "\n";
@@ -163,3 +164,4 @@ function checkProxyList() {
 // Run the checker
 CoderMark($cl, $CoderMarkPrinted);
 checkProxyList();
+?>
